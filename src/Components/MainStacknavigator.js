@@ -22,7 +22,7 @@ const StackNavigator = ()=>{
                         headerTitleAlign:"center",
                         headerTitleStyle:{fontSize:16},
                         headerShadowVisible:false,
-                        headerLeft:()=><TouchableOpacity><Image source={require('../UI/menu.png')}/></TouchableOpacity>
+                        // headerLeft:()=><TouchableOpacity><Image source={require('../UI/menu.png')}/></TouchableOpacity>
                     }}
                     />
                 <Stack.Screen name="ButtonAdd" component={ButtonAdd}/>
@@ -51,7 +51,7 @@ const Calendar = () => {
                 headerTitleAlign:"center",
                 headerTitleStyle:{fontSize:16},
                 headerShadowVisible:false,
-                headerLeft:()=><TouchableOpacity><Image source={require('../UI/menu.png')}/></TouchableOpacity>
+                // headerLeft:()=><TouchableOpacity><Image source={require('../UI/menu.png')}/></TouchableOpacity>
 
             }}
             />

@@ -14,14 +14,16 @@ const TabNavigator  = ()=>{
                 name="Main" 
                 component={StackNavigator} 
                 options={{headerShown:false,
-                    tabBarIcon: () => <Image source={require('../UI/home.png')}></Image>
+                    tabBarIcon: () => <Image source={require('../UI/home.png')}></Image>,
+                    tabBarShowLabel:false
                 }}
                 />
             <Tab.Screen 
                 name="Calendar" 
                 component={Calendar}
                 options={{headerShown:false,
-                    tabBarIcon: ()=><Image source={require('../UI/calendar.png')}/>
+                    tabBarIcon: ()=><Image source={require('../UI/calendar.png')}/>,
+                    tabBarShowLabel:false
                 }}
                 />
         </Tab.Navigator>

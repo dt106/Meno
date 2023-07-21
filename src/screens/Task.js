@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Dimensions, FlatList, StyleSheet, Text, View } from "react-native";
+import { Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import CheckBox from "../Components/Checkbox";
 import ButtonAdd from "../Components/ButtonAdd";
 
@@ -30,7 +30,7 @@ const DATA = [
 ]
 
 const Item = ({item})=>(
-    <View style = {[
+    <TouchableOpacity style = {[
         styles.boxitem,
         {
             backgroundColor:item.backgroundColor,
@@ -38,12 +38,13 @@ const Item = ({item})=>(
         }
         ]}>
         <Text style = {styles.tasks}>{item.title}</Text>
-    </View>
+    </TouchableOpacity>
 )
 const dataCheckbox =  [
     {
         id :1,
-        title:'Follow Oluwafisayomi.dev on Twitter.'
+        title:'Follow Oluwafisayomi.dev on Twitter.',
+        checked: false,
     },
     {
         id :2,
@@ -62,18 +63,20 @@ const dataCheckbox =  [
         title:'Define my morning routine'
     },
 ]
-const CheckBoxItem = ({item})=>(
+const CheckBoxItem = ({item, value, onChange})=>(
     <View style = {styles.checkView}>
         <CheckBox
+            value = {value}
+            onChange={onChange}
         />
         <Text style = {styles.textContent}>{item.title}</Text>
     </View>
 ) 
 const Task = ({navigation})=>{
-    // const [ischecked, setchecked] = useState(false);
-    // const handlecheck = () =>{
-    //     setchecked(!ischecked);
-    // }
+    const [ischecked, setchecked] = useState(false);
+    const handlecheck = () =>{
+        setchecked(!ischecked);
+    }
     return (
         <View style = {styles.container}>
             <View style= {styles.titleView}>
@@ -101,6 +104,8 @@ const Task = ({navigation})=>{
                         return(
                             <CheckBoxItem
                                 item={item}
+                                value={ischecked}
+                                onChange={setchecked}
                             />
                         )
                     }}

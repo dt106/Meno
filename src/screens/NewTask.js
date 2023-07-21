@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet,Text, View,TextInput , FlatList, TouchableOpacity} from "react-native";
+import { StyleSheet,Text, View,TextInput , FlatList, TouchableOpacity, Image} from "react-native";
 import { Dimensions } from 'react-native';
 const DATA = [
 
@@ -25,7 +25,7 @@ const DATA = [
 ]
 
 const Item = ({item})=>(
-    <View style = {[
+    <TouchableOpacity style = {[
         styles.boxitem,
         {
             backgroundColor:item.backgroundColor,
@@ -33,7 +33,7 @@ const Item = ({item})=>(
         }
         ]}>
         <Text style = {styles.tasks}>{item.title}</Text>
-    </View>
+    </TouchableOpacity>
 )
 
 const NewTask = ()=>{
@@ -64,7 +64,10 @@ const NewTask = ()=>{
             <View style ={styles.descibe}>
                 <Text>Deadline</Text>
                 <View style = {styles.inputView}>
-                
+                    <TouchableOpacity>
+                        <Image style = {styles.icon} source={require('../UI/calendar2.png')}/>
+                    </TouchableOpacity>
+                    <TextInput placeholder="Due Date"></TextInput>
                 </View>
             </View>
             <TouchableOpacity style = {styles.buttonadd}>
@@ -102,6 +105,11 @@ const styles = StyleSheet.create({
        borderRadius: 8,
        opacity: 0.7,
        marginTop: 12,
+       flexDirection: 'row',
+       alignItems:"center"
+    },
+    icon:{
+        marginLeft: 14.5,
     },
     textinput:{
         marginLeft: 14.5,

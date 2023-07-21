@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 
-const CheckBox = (pops) =>{
-    const [ischecked, setchecked] = useState(false);
+const CheckBox = ({value, onChange}) =>{
+    // const [ischecked, setchecked] = useState(false);
     const handlecheck = () =>{
-        setchecked(!ischecked);
+        onChange(!value);
     }
     return (
-        <TouchableOpacity style = {[styles.checkbox,{borderColor:ischecked?"#000080":"black"}]} onPress={handlecheck}>
-            <View style = {ischecked?styles.checkboxchecked:styles.checkboxunchecked}>
+        <TouchableOpacity style = {[styles.checkbox,{borderColor:value?"#000080":"black"}]} onPress={handlecheck}>
+            <View style = {value?styles.checkboxchecked:styles.checkboxunchecked}>
             </View>
         </TouchableOpacity>
     )
@@ -31,8 +31,6 @@ const styles = StyleSheet.create({
         height:10,
         backgroundColor:"#000080",
         borderRadius:2,
-        
-
     },
     checkboxunchecked:{
     }

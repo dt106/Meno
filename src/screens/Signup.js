@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, Touchable, TouchableOpacity, View } from "react-native";
 import CheckBox from "../Components/Checkbox";
 
 const Signup = ({navigation,route}) =>{
+    const [ischecked, setchecked] = useState(false);
+    const handlecheck = () =>{
+        setchecked(!ischecked);
+    }
     return(
         <View style={styles.container}>
             <View style = {styles.viewtitle}>
@@ -23,7 +27,10 @@ const Signup = ({navigation,route}) =>{
                 <TextInput style={styles.text} placeholder="Confirm Password"></TextInput>
             </View>
             <View style={styles.checkarea}>
-                <CheckBox/>
+                <CheckBox
+                    value={ischecked}
+                    onChange={handlecheck}
+                />
                 <Text style={styles.terms}>I agree to Terms and Conditions and Privacy Policy</Text>
             </View>
                 <TouchableOpacity style = {styles.btn}>
