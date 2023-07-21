@@ -10,7 +10,6 @@ const DATA = [
     {
         id  : 2,
         title: 'Urgent',
-        backgroundColor:"#EEEFF0",
         
     },
     {
@@ -29,7 +28,7 @@ const Item = ({item})=>(
         styles.boxitem,
         {
             backgroundColor:item.backgroundColor,
-            borderWidth:item.id===2?0:1
+            borderWidth:1
         }
         ]}>
         <Text style = {styles.tasks}>{item.title}</Text>

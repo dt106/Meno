@@ -8,10 +8,11 @@ import Task from "../screens/Task";
 import NewTask from "../screens/NewTask";
 import { Image, Text, TouchableOpacity } from "react-native";
 import ButtonAdd from "./ButtonAdd";
+import { DrawerActions } from "@react-navigation/native";
 
 const Stack = createNativeStackNavigator();
 
-const StackNavigator = ()=>{
+const StackNavigator = ({navigation})=>{
     return (
             <Stack.Navigator>
                 
@@ -22,10 +23,11 @@ const StackNavigator = ()=>{
                         headerTitleAlign:"center",
                         headerTitleStyle:{fontSize:16},
                         headerShadowVisible:false,
-                        // headerLeft:()=><TouchableOpacity><Image source={require('../UI/menu.png')}/></TouchableOpacity>
+                        headerLeft:()=><TouchableOpacity onPress={()=>navigation.dispatch(DrawerActions.toggleDrawer())}>
+                                            <Image source={require('../UI/menu.png')}/>
+                                        </TouchableOpacity>
                     }}
                     />
-                <Stack.Screen name="ButtonAdd" component={ButtonAdd}/>
                 <Stack.Screen 
                     name="NewTask" 
                     component={NewTask}
@@ -37,11 +39,13 @@ const StackNavigator = ()=>{
                             
                         }
                     }}
+                    
                 />
+                
             </Stack.Navigator>
     );
 }
-const Calendar = () => {
+const Calendar = ({navigation}) => {
     return(
         <Stack.Navigator>
             <Stack.Screen 
@@ -51,7 +55,9 @@ const Calendar = () => {
                 headerTitleAlign:"center",
                 headerTitleStyle:{fontSize:16},
                 headerShadowVisible:false,
-                // headerLeft:()=><TouchableOpacity><Image source={require('../UI/menu.png')}/></TouchableOpacity>
+                headerLeft:()=><TouchableOpacity onPress={()=>navigation.dispatch(DrawerActions.toggleDrawer())}>
+                                    <Image source={require('../UI/menu.png')}/>
+                                </TouchableOpacity>
 
             }}
             />

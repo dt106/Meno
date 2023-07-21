@@ -15,11 +15,11 @@ const Onboarding = ({navigation}) =>{
                 <Text style = {styles.title2}>Get organized by sorting out all your tasks and boost your productivity.</Text>
                 <View style = {styles.btn}>
                     <TouchableOpacity   style = {styles.btn1}
-                                        onPress={()=>navigation.navigate('LogIn')}>
+                                        onPress={()=>navigation.navigate('LogUser', {screen:'LogIn'})}>
                         <Text style = {styles.btnText}>Log in</Text>
                     </TouchableOpacity>
                     <TouchableOpacity   style = {styles.btn2}
-                                        onPress={()=>navigation.navigate('SignUp')}>
+                                        onPress={()=>navigation.navigate('LogUser', {screen:'SignUp'})}>
                         <Text style = {styles.btnText}>Get Started</Text>
                     </TouchableOpacity>
                 </View>

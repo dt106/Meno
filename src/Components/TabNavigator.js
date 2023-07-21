@@ -9,13 +9,14 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator  = ()=>{
     return (
-        <Tab.Navigator>
+        <Tab.Navigator
+        >
             <Tab.Screen 
                 name="Main" 
                 component={StackNavigator} 
                 options={{headerShown:false,
                     tabBarIcon: () => <Image source={require('../UI/home.png')}></Image>,
-                    tabBarShowLabel:false
+                    tabBarShowLabel:false 
                 }}
                 />
             <Tab.Screen 
@@ -28,8 +29,6 @@ const TabNavigator  = ()=>{
                 />
         </Tab.Navigator>
     );
-
-
 };
 
 export default TabNavigator;

@@ -4,8 +4,32 @@ import Onboarding from "../screens/Onboarding";
 import Login from "../screens/Login";
 import Signup from "../screens/Signup";
 import TabNavigator from "./TabNavigator";
+import DrawerNavigator from "./DrawerNavigator";
 
 const Stack = createNativeStackNavigator();
+
+const LogUser = ({navigation})=>{
+    return(
+        <Stack.Navigator>
+            <Stack.Screen 
+                    name="LogIn"
+                    component={Login}
+                    options={{
+                        headerShown:false,
+                    }}    
+                    />
+                
+                <Stack.Screen
+                    name="SignUp"
+                    component={Signup}
+                    options={{
+                        headerShown:false
+                    }}
+                />
+            
+        </Stack.Navigator>
+    )
+}
 
 const WelComeNavigator = ()=>{
     return(
@@ -17,27 +41,36 @@ const WelComeNavigator = ()=>{
                     headerShown:false,
                 }}    
             />
-            <Stack.Screen 
+            {/* <Stack.Screen 
                 name="LogIn"
                 component={Login}
                 options={{
                     headerShown:false,
                 }}    
             />
+             
             <Stack.Screen
                 name="SignUp"
                 component={Signup}
                 options={{
                     headerShown:false
                 }}
+            /> */}
+            <Stack.Screen 
+                name="LogUser"
+                component={LogUser}
+                options={{
+                    headerShown:false,
+                }}
             />
             <Stack.Screen
                 name="GetHome"
-                component={TabNavigator}
+                component={DrawerNavigator}
                 options={{
                     headerShown:false
                 }}
             />
+           
         </Stack.Navigator>
     )
 }
