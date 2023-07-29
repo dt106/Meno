@@ -21,6 +21,7 @@ const WelComeNavigator = ()=>{
                 name="Login"
                 component={LogNavigator}
                 options={{
+                    headerShown: false
                 }}
             />
             <Stack.Screen

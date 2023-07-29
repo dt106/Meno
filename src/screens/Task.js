@@ -29,7 +29,6 @@ const DATA = [
         id: 4,
         title:'No Activity'
     }
-
 ]
 
 const Item = ({item, onPress, style})=>(

@@ -5,12 +5,14 @@ import { Button, TouchableHighlight, TouchableOpacity } from "react-native";
 import { StyleSheet } from "react-native";
 import { Image } from "react-native";
 import { View,Text } from "react-native";
-const collectionRef = firebase.firestore().collection('Task');
-const query = collectionRef.where('Type', '==', 'Urgent');
-const snapshot = await query.get();
-console.log(snapshot.size);
-      
+import TaskDB from "../Database/TaskDB";
+import Task from "./Task";
+// const database = firebase.firestore();
+// const data = database.collection('Task');
+const Taskdb = new TaskDB();
+console.log(await Taskdb.CountHighPrioriry())
 const Onboarding = ({navigation}) =>{
+
     return(
         <View style = {styles.container}>
             <View>
@@ -21,11 +23,12 @@ const Onboarding = ({navigation}) =>{
                 <Text style = {styles.title2}>Get organized by sorting out all your tasks and boost your productivity.</Text>
                 <View style = {styles.btn}>
                     <TouchableOpacity   style = {styles.btn1}
-                                        onPress={()=>navigation.replace('Main', {screen:'Log'})}>
+                                        onPress={()=>{navigation.navigate('Main', {screen:'Log'})
+                                    }}>
                         <Text style = {styles.btnText}>Log in</Text>
                     </TouchableOpacity>
                     <TouchableOpacity   style = {styles.btn2}
-                                        onPress={()=>navigation.navigate('LogUser', {screen:'SignUp'})}>
+                                        onPress={()=>navigation.navigate('Login', {screen:'SignUp'})}>
                         <Text style = {styles.btnText}>Get Started</Text>
                     </TouchableOpacity>
                 </View>

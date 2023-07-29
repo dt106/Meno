@@ -19,7 +19,6 @@ class TaskDB{
         this.Deadline = Deadline,
         this.Status = Status
     }
-    data = database.collection('Task');
     SelecAll(){
         data.get()
         .then((snapshort)=>{
@@ -72,7 +71,6 @@ class TaskDB{
     }
 
     async Delete(Id){
-        console.log(Id);
         let result = 0;
         const snapshort = await data.where('Id', '==',Id).get();
         try{
@@ -131,8 +129,11 @@ class TaskDB{
         }
         return result
     }
-    CountHighPrioriry(){
-        return count;
+    async CountHighPrioriry(){
+        let a = 0;
+        const count = (await data.where('Type','==','Important').get()).size;
+        a = count;
+        return a;
     }
     DatetimetoSting(){
         const datetime = new Date();
@@ -147,5 +148,5 @@ class TaskDB{
 }
 
 // Sua du lieu
-
+    
 export default TaskDB;

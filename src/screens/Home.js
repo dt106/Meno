@@ -39,7 +39,6 @@ const Item = ({item,backgroundColor, color})=>(
 );
 
 const Home = ({navigation}) => {
-    console.log(Taskdb.CountHighPrioriry())
     return (
         <View style = {styles.container}>
             <View style = {styles.box}>
