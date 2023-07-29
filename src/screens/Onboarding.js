@@ -1,9 +1,15 @@
+import { firebase } from "@react-native-firebase/firestore";
 import { color } from "@rneui/base";
 import React from "react";
 import { Button, TouchableHighlight, TouchableOpacity } from "react-native";
 import { StyleSheet } from "react-native";
 import { Image } from "react-native";
 import { View,Text } from "react-native";
+const collectionRef = firebase.firestore().collection('Task');
+const query = collectionRef.where('Type', '==', 'Urgent');
+const snapshot = await query.get();
+console.log(snapshot.size);
+      
 const Onboarding = ({navigation}) =>{
     return(
         <View style = {styles.container}>
@@ -15,7 +21,7 @@ const Onboarding = ({navigation}) =>{
                 <Text style = {styles.title2}>Get organized by sorting out all your tasks and boost your productivity.</Text>
                 <View style = {styles.btn}>
                     <TouchableOpacity   style = {styles.btn1}
-                                        onPress={()=>navigation.navigate('LogUser', {screen:'LogIn'})}>
+                                        onPress={()=>navigation.replace('Main', {screen:'Log'})}>
                         <Text style = {styles.btnText}>Log in</Text>
                     </TouchableOpacity>
                     <TouchableOpacity   style = {styles.btn2}
@@ -61,7 +67,6 @@ const styles = StyleSheet.create({
         padding:20
     },
     btn1:{
-        backgroundColor:"red",
         width:250,
         height:35,
         borderRadius:10,

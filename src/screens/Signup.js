@@ -1,8 +1,32 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, Touchable, TouchableOpacity, View } from "react-native";
-import CheckBox from "../Components/Checkbox";
+import CheckBox from "../Components/Item/Checkbox";
+import auth from "@react-native-firebase/auth";
+
+
+
+//ket noi toi database
+// const QuickTask  = new Task();
+// QuickTask.Add('11h', '10:10:10',1);
+// QuickTask.Delete('10h');
+
+
+// ket thuc database
+
+const Sign = ()=>{
+    auth()
+        .createUserWithEmailAndPassword('tuankk1006@gmail.com', '123456')
+        .then(()=>{
+            console.log("hihi");
+        })
+        .catch((error)=>{
+            console.log(error.message);
+        })
+}
+
 
 const Signup = ({navigation,route}) =>{
+
     const [ischecked, setchecked] = useState(false);
     const handlecheck = () =>{
         setchecked(!ischecked);
@@ -29,12 +53,12 @@ const Signup = ({navigation,route}) =>{
             <View style={styles.checkarea}>
                 <CheckBox
                     value={ischecked}
-                    onChange={handlecheck}
+                    onPress={handlecheck}
                 />
-                <Text style={styles.terms}>I agree to Terms and Conditions and Privacy Policy</Text>
+                <Text style={styles.terms}>I agree to <Text style = {{fontWeight:'800'}} >Terms</Text> and <Text style = {{fontWeight:'800'}}>Conditions and Privacy Policy</Text></Text>
             </View>
-                <TouchableOpacity style = {styles.btn}>
-                    <Text style = {styles.btnText}>Create account</Text>
+                <TouchableOpacity style = {styles.btn} onPress={Sign}>
+                    <Text style = {styles.btnText} >Create account</Text>
                 </TouchableOpacity>
             <View style = {styles.Signin}>
                 <Text>
@@ -47,6 +71,8 @@ const Signup = ({navigation,route}) =>{
         </View>
     );
 };
+
+
 
 const styles = StyleSheet.create({
     container:{

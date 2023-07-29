@@ -1,21 +1,19 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import Home from "../screens/Home";
-import Login from "../screens/Login";
-import Signup from "../screens/Signup";
-import { NavigationContainer } from "@react-navigation/native";
-import Task from "../screens/Task";
-import NewTask from "../screens/NewTask";
+import Home from "../../screens/Home";
+import Task from "../../screens/Task";
+import NewTask from "../../screens/NewTask";
 import { Image, Text, TouchableOpacity } from "react-native";
-import ButtonAdd from "./ButtonAdd";
 import { DrawerActions } from "@react-navigation/native";
+import DrawerNavigator from "../DrawerNavigator/DrawerNavigator";
+import LogNavigator from "./LogNavigator";
 
 const Stack = createNativeStackNavigator();
 
 const StackNavigator = ({navigation})=>{
     return (
             <Stack.Navigator>
-                
+
                 <Stack.Screen 
                     name="Home" 
                     component={Home}
@@ -24,7 +22,7 @@ const StackNavigator = ({navigation})=>{
                         headerTitleStyle:{fontSize:16},
                         headerShadowVisible:false,
                         headerLeft:()=><TouchableOpacity onPress={()=>navigation.dispatch(DrawerActions.toggleDrawer())}>
-                                            <Image source={require('../UI/menu.png')}/>
+                                            <Image source={require('../../UI/menu.png')}/>
                                         </TouchableOpacity>
                     }}
                     />
@@ -56,12 +54,35 @@ const Calendar = ({navigation}) => {
                 headerTitleStyle:{fontSize:16},
                 headerShadowVisible:false,
                 headerLeft:()=><TouchableOpacity onPress={()=>navigation.dispatch(DrawerActions.toggleDrawer())}>
-                                    <Image source={require('../UI/menu.png')}/>
+                                    <Image source={require('../../UI/menu.png')}/>
                                 </TouchableOpacity>
 
             }}
             />
+            
         </Stack.Navigator>
     );
 }
-export {StackNavigator, Calendar};
+
+const MainNavigator = ({navigation})=>{
+    return(
+        <Stack.Navigator
+            screenOptions={{
+                headerShown:false
+            }}
+        >
+            <Stack.Screen
+                name="Log"
+                component={LogNavigator}
+
+            />
+            <Stack.Screen
+                name="DrawNavigator"
+                component={DrawerNavigator}
+            />
+            
+        </Stack.Navigator>
+    )
+}
+
+export {StackNavigator, Calendar,MainNavigator};

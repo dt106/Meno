@@ -1,21 +1,38 @@
 import React from "react";
-import { Image, View } from "react-native";
-import Home from "../screens/Home";
-import { Calendar, StackNavigator } from "./MainStacknavigator";
-import TabNavigator from "./TabNavigator";
+import { Calendar } from "../StackNavigator/MainStacknavigator";
+import TabNavigator from "../TabNavigator/TabNavigator";
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import Login from "../screens/Login";
-import WelComeNavigator from "./WelcomeNavigator";
-import Privacy from "../screens/Privacy";
-import Term from "../screens/Term";
+import Privacy from "../../screens/Privacy";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Signup from "../screens/Signup";
+import Term from "../../screens/Term";
+import auth from '@react-native-firebase/auth'
+import { useNavigation } from "@react-navigation/native";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
+
+
+
 const DrawerNavigator = ()=> {
+  const navigation = useNavigation();
+  const HandleLogOut = () =>{
+    auth()
+    .signOut()
+    .then(() =>{
+      navigation.reset({
+        index: 0,
+        routes: [{name:'Main'}]
+      });
+      console.log('Logout SuccessFull')
+    })
+    .catch((error)=> console.log(error.message))
+
+    
+  }
   return(
-    <Drawer.Navigator>
+    <Drawer.Navigator
+    
+    >
       
       <Drawer.Screen 
         name="Home"
@@ -45,7 +62,7 @@ const DrawerNavigator = ()=> {
       />
       <Drawer.Screen
         name="Terms & Conditions"
-        component={Terms}
+        component={Term}
         options={{
           headerTitleAlign:"center",
           headerTitleStyle:{fontSize: 15,
@@ -53,9 +70,9 @@ const DrawerNavigator = ()=> {
           headerShadowVisible:false,
         }}
       />
-      <Drawer.Screen
+      <Stack.Screen
         name="Log Out"
-        component={WelComeNavigator}
+        component={HandleLogOut}
         options={{
           headerShown:false
         }}

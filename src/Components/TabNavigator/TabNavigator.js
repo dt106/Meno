@@ -1,12 +1,11 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Home from "../screens/Home";
-import Task from "../screens/Task";
-import { StackNavigator,Calendar } from "./MainStacknavigator";
+import { StackNavigator,Calendar } from "../StackNavigator/MainStacknavigator";
 import { Image } from "react-native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Tab = createBottomTabNavigator();
-
+const Stack = createNativeStackNavigator();
 const TabNavigator  = ()=>{
     return (
         <Tab.Navigator
@@ -15,7 +14,7 @@ const TabNavigator  = ()=>{
                 name="Main" 
                 component={StackNavigator} 
                 options={{headerShown:false,
-                    tabBarIcon: () => <Image source={require('../UI/home.png')}></Image>,
+                    tabBarIcon: () => <Image source={require('../../UI/home.png')}></Image>,
                     tabBarShowLabel:false 
                 }}
                 />
@@ -23,10 +22,11 @@ const TabNavigator  = ()=>{
                 name="Calendar" 
                 component={Calendar}
                 options={{headerShown:false,
-                    tabBarIcon: ()=><Image source={require('../UI/calendar.png')}/>,
+                    tabBarIcon: ()=><Image source={require('../../UI/calendar.png')}/>,
                     tabBarShowLabel:false
                 }}
                 />
+     
         </Tab.Navigator>
     );
 };

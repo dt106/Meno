@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "940186949290",
+    "firebase_url": "https://hello-595fa-default-rtdb.firebaseio.com",
+    "project_id": "hello-595fa",
+    "storage_bucket": "hello-595fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940186949290:android:6ae60389315deab78362d3",
+        "android_client_info": {
+          "package_name": "com.meno"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940186949290-mp7uauiabfat2d395el0ul7sunv3q9fd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAuevPsp_ljpLE-TksUCNd-CsfAjkc8g8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "940186949290-mp7uauiabfat2d395el0ul7sunv3q9fd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

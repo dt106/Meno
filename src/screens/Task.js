@@ -1,11 +1,16 @@
-import React, { useState } from "react";
-import { Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import CheckBox from "../Components/Checkbox";
-import ButtonAdd from "../Components/ButtonAdd";
+import React, { memo, useEffect, useState } from "react";
+import { Dimensions, FlatList, Image, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from "react-native";
+import CheckBox from "../Components/Item/Checkbox";
+import ButtonAdd from "../Components/Item/ButtonAdd";
+import TaskDB from "../Database/TaskDB";
+import {  firebase } from "@react-native-firebase/firestore";
+import auth from '@react-native-firebase/auth';
 
+
+
+const Taskdb = new TaskDB();
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
-
 const DATA = [
 
     {
@@ -14,9 +19,7 @@ const DATA = [
     },
     {
         id  : 2,
-        title: 'Urgent',
-        backgroundColor:"#EEEFF0",
-        
+        title: 'Urgent',        
     },
     {
         id : 3,
@@ -29,54 +32,109 @@ const DATA = [
 
 ]
 
-const Item = ({item})=>(
-    <TouchableOpacity style = {[
-        styles.boxitem,
-        {
-            backgroundColor:item.backgroundColor,
-            borderWidth:item.id===2?0:1
-        }
-        ]}>
+const Item = ({item, onPress, style})=>(
+    <TouchableOpacity onPress={onPress} style = {style}>
         <Text style = {styles.tasks}>{item.title}</Text>
     </TouchableOpacity>
 )
-const dataCheckbox =  [
-    {
-        id :1,
-        title:'Follow Oluwafisayomi.dev on Twitter.',
-        checked: false,
-    },
-    {
-        id :2,
-        title:'Learn Figma by 4pm.'
-    },
-    {
-        id :3,
-        title:'Coding at 9am.'
-    },
-    {
-        id :4,
-        title:'Watch Mr Beasts Videos.'
-    },
-    {
-        id :5,
-        title:'Define my morning routine'
-    },
-]
-const CheckBoxItem = ({item, value, onChange})=>(
+
+const CheckBoxItem =  ({item, value, onPress, ShowUpdate, Delete})=>(
+    
     <View style = {styles.checkView}>
         <CheckBox
-            value = {value}
-            onChange={onChange}
+            value={value}
+            onPress={onPress}
+            style={styles.checkbox}
         />
-        <Text style = {styles.textContent}>{item.title}</Text>
+        <View style = {styles.checkcontent}>
+            <TouchableOpacity onPress={ShowUpdate}>
+                <Text style = {[styles.textContent, {textDecorationLine:value?'line-through':'none'}]}>{item.Description}</Text>
+            </TouchableOpacity>
+            <Text style= {styles.date}>{item.Deadline}</Text>
+        </View>
+        <TouchableOpacity onPress={Delete} >
+            <Image style = {styles.iconremove} source={require('../UI/remove.png')}/>
+        </TouchableOpacity>
     </View>
-) 
+)
+
 const Task = ({navigation})=>{
-    const [ischecked, setchecked] = useState(false);
-    const handlecheck = () =>{
-        setchecked(!ischecked);
+    const [option, setoption] = useState(1);
+    const [TypeText, setTypeText] = useState('Quick Task'); 
+    const [Types,setType] = useState([]);
+
+    function handleShowUpdate({Id, Description, Type, Deadline}){
+           
+        navigation.navigate('NewTask', { 
+           data:{
+
+               IdRoute: Id,
+               DescriptionRoute: Description,
+               TypeRoute: Type,
+               DeadlineRoute: Deadline,
+               Status: 2,
+            }
+            
+           } )
     }
+
+    async function handleDelete(Id){
+        const result = await Taskdb.Delete(Id);
+        if (result === 1)
+        {
+            ToastAndroid.show('Delete SuccessFull', ToastAndroid.SHORT);
+        }
+        else{
+            ToastAndroid.show('Delete Failed', ToastAndroid.SHORT);
+        }
+    }
+
+    const handleTypeChange = (value)=>
+    {
+        setTypeText(value);
+    }
+    const handlecheck = (itemId) =>{
+        const newData = Types.map((item)=>{
+            if(item.Id === itemId){
+                return{
+                    ...item
+                }
+            }
+            return item;
+        })
+        setType(newData);
+
+    }
+    
+    const handleOption = (item) =>{
+        setoption(item.id);
+    }
+    async function handleUpdate (Id, Status) {
+        const data = await Taskdb.UpdateStatus(Id,Status);
+        if (data === 1){
+            ToastAndroid.show('Update SuccessFull', ToastAndroid.SHORT);
+        }
+        else{
+            ToastAndroid.show('Update Failed', ToastAndroid.SHORT);
+        }
+    }
+    
+    useEffect(()=>{
+        firebase.firestore().collection('Task')
+                                    .where('UserId','==',auth().currentUser.uid)
+                                    .where('Type','==',TypeText)
+                                    .onSnapshot(
+                                        snapshort=> {
+                                            const Types = [];
+                                            snapshort.docs.map(doc=>{
+                                                Types.push({
+                                                    ...doc.data()
+                                                });
+                                            });
+                                            setType(Types);
+                            
+                                        });
+    }, [])
     return (
         <View style = {styles.container}>
             <View style= {styles.titleView}>
@@ -88,30 +146,72 @@ const Task = ({navigation})=>{
                     horizontal={true}
                     keyExtractor={item=>item.id}
                     renderItem={({item})=>{
+                        const selected = option === item.id 
                         return(
                             <Item
-                                item={item}     
+                                item={item} 
+                                onPress={()=>{
+                                    handleOption(item)
+                                    handleTypeChange(item.title)
+                                    
+                                    firebase.firestore().collection('Task')
+                                    .where('UserId','==',auth().currentUser.uid)
+                                    .where('Type','==', item.title)
+                                    .onSnapshot(
+                                        snapshort=> {
+                                            const Types = [];
+                                            snapshort.docs.map(doc=>{
+                                                Types.push({
+                                                    ...doc.data()
+                                                });
+                                            });
+                                            setType(Types);
+                            
+                                        });
+                                }}
+                                style={selected?styles.selectedbox:styles.boxitem}
                             />
                         )
                     }}
                 />
             </View>
             <View style = {styles.listcheck}>
-                <FlatList
-                    data={dataCheckbox}
-                    keyExtractor={item=>item.id}
+                {TypeText && (
+                    <FlatList
+                    data={Types}
+                    alwaysBounceVertical = {true}
                     renderItem={({item})=>{
                         return(
                             <CheckBoxItem
-                                item={item}
-                                value={ischecked}
-                                onChange={setchecked}
+                            item = {item}
+                            value = {item.Status}
+                            onPress = {() => {
+                                handlecheck(item.Id)
+                                handleUpdate(item.Id, item.Status)
+
+                            }}
+                            ShowUpdate={()=>{
+                                if (item.Status === 0)
+                                {       
+                                    handleShowUpdate({
+                                        Id: item.Id,
+                                        Description: item.Description,
+                                        Type: item.Type,
+                                        Deadline: item.Deadline
+                                    })
+                                }
+                                else{
+                                    ToastAndroid.show('Đã hoàn thành không thể cập nhật', ToastAndroid.SHORT)
+                                }
+                            }}
+                            Delete={()=>handleDelete(item.Id)}
                             />
                         )
-                    }}
-                />  
+                        }}
+                        /> 
+                )}
             </View>
-            <ButtonAdd/>
+            <ButtonAdd style={{top: HEIGHT/1.5 }}/>
         </View>
     )
 }
@@ -120,7 +220,7 @@ const styles = StyleSheet.create({
 
     container:{
         width: WIDTH,
-        height: HEIGHT,
+        height: HEIGHT/1.22,
         backgroundColor:"white"
     },
     titleView:{
@@ -147,6 +247,18 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         justifyContent:"center",
         alignItems: "center",
+        marginTop: 12,
+    },
+    selectedbox:{
+        borderWidth: 0,
+        backgroundColor: "#EEEFF0",
+        width: 95,
+        height:37,
+        borderRadius: 8,
+        justifyContent: "center",
+        alignItems:"center",
+        marginRight: 10,
+        marginTop: 12
     },
     tasks:{
         fontSize: 12,
@@ -156,19 +268,40 @@ const styles = StyleSheet.create({
     },
     listcheck:{
         marginTop: 30,  
+        marginLeft: 15,
+        flex: 1,
     },
     checkView:{
         marginLeft: 32,
         flexDirection:'row',
         marginBottom: 15,
-        alignItems:"center",
+        // alignItems:"center",
     },
     textContent:{
+        color:'black',
         fontSize: 13,
         marginLeft: 13,
         fontWeight:'500',
         // textDecorationLine:'line-through'
     },
+    date:{
+        fontSize: 11,
+        marginLeft: 13,
+        fontWeight:'500'
+
+    },
+    checkcontent:{
+       width: WIDTH/1.5,
+       paddingLeft: 10,
+    },
+    checkbox:{
+        marginTop: 3,
+    },
+    iconremove:{
+        margin: 3,
+        width: 15,
+        height: 15,
+    }
 })
 
 

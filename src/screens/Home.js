@@ -3,9 +3,12 @@ import { FlatList } from 'react-native';
 import { Dimensions } from 'react-native';
 import { Image, TouchableOpacity } from 'react-native';
 import {View, StyleSheet, Text} from 'react-native';
-import CheckBox from '../Components/Checkbox';
-import ButtonAdd from '../Components/ButtonAdd';
-
+import CheckBox from '../Components/Item/Checkbox';
+import ButtonAdd from '../Components/Item/ButtonAdd';
+import TaskDB from '../Database/TaskDB';
+import Task from './Task';
+import { firebase } from '@react-native-firebase/firestore';
+const Taskdb = new TaskDB();
 const DATA = [
   {
     id: 1, 
@@ -36,6 +39,7 @@ const Item = ({item,backgroundColor, color})=>(
 );
 
 const Home = ({navigation}) => {
+    console.log(Taskdb.CountHighPrioriry())
     return (
         <View style = {styles.container}>
             <View style = {styles.box}>

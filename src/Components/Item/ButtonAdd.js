@@ -3,11 +3,20 @@ import React from "react";
 import { StyleSheet, TouchableOpacity,Text,Image } from "react-native";
 
 
-const ButtonAdd = ({})=>{
+const ButtonAdd = ({style})=>{
     const navigation = useNavigation();
     return(
-        <TouchableOpacity style = {styles.btnPlus} onPress={()=>navigation.navigate('NewTask')} >
-            <Image source={require("../UI/Bg.png")}/>
+        <TouchableOpacity style = {[style,styles.btnPlus]} onPress={()=>
+                navigation.navigate('NewTask', {
+                    data:{
+                        IdRoute: '',
+                        DescriptionRoute: '',
+                        TypeRoute: '',
+                        DeadlineRoute: '',
+                        Status: 1,
+                    }
+                })} >
+            <Image source={require("../../UI/Bg.png")}/>
             <Text style = {styles.plus}>+</Text>
         </TouchableOpacity>
     );
