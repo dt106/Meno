@@ -3,7 +3,7 @@ import React from "react";
 import Home from "../../screens/Home";
 import Task from "../../screens/Task";
 import NewTask from "../../screens/NewTask";
-import { Image, Text, TouchableOpacity } from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 import { DrawerActions } from "@react-navigation/native";
 import DrawerNavigator from "../DrawerNavigator/DrawerNavigator";
 import LogNavigator from "./LogNavigator";
