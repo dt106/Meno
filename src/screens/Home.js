@@ -90,25 +90,21 @@ const Home = ({navigation}) => {
           creating them
         </Text>
       </View>
-      <ButtonAdd />
+      <ButtonAdd style={styles.ButtonAdd}/>
     </View>
   );
 };
-const HEIGHT = Dimensions.get('window').height;
-const WIDTH = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('screen').height;
+const WIDTH = Dimensions.get('screen').width;
 const styles = StyleSheet.create({
-  navhead: {
-    width: '100%',
-    height: 40,
-    backgroundColor: 'pink',
-  },
   container: {
     width: WIDTH,
     height: HEIGHT,
     backgroundColor: 'white',
+    flex: 1,
   },
   box: {
-    top: 50,
+    marginTop: 32,
     left: 32,
     marginBottom: 72,
   },
@@ -162,21 +158,6 @@ const styles = StyleSheet.create({
     marginTop: 12,
     opacity: 0.5,
   },
-  btnPlus: {
-    position: 'absolute',
-    width: 48,
-    height: 48,
-    alignItems: 'center',
-    justifyContent: 'center',
-    bottom: 157,
-    right: 28,
-    zIndex: 1,
-  },
-  plus: {
-    position: 'absolute',
-    fontSize: 20,
-    color: 'white',
-  },
   navbar: {
     position: 'absolute',
     justifyContent: 'space-around',
@@ -188,6 +169,10 @@ const styles = StyleSheet.create({
     elevation: 1,
     bottom: 0,
   },
+  ButtonAdd:{
+    top: HEIGHT / 1.5 ,
+    left: WIDTH / 1.25,
+},
 });
 
 export default Home;

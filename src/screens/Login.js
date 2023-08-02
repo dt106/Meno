@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ToastAndroid,
   Modal,
+  Keyboard,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { KeyboardAvoidingView } from 'react-native';
@@ -49,6 +50,7 @@ const Login = ({navigation}) => {
   const [password, SetPassword] = useState('');
   //localStorage
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalOpen, setModalOen] = useState(true);
   const [lstAccount, setlstAccount] = useState([]);
   const handleEmail = value => {
     if (value != '' || value == '') {
@@ -63,6 +65,13 @@ const Login = ({navigation}) => {
 
   const handlNextPassWord = () => {
     passwordRef.current.focus();
+  };
+  const handleOpenModal = () => {
+    setModalVisible(true);
+  };
+  const handleHideModal = () =>{
+    setModalVisible(false);
+    setModalOen(false);
   };
   useEffect(() => {
     async function GetInfo(){
@@ -82,7 +91,7 @@ const Login = ({navigation}) => {
       </View>
       <View style={styles.inputView}>
         <TextInput
-          style={styles.inputText}
+          style={[styles.inputText]}
           value={email}
           ref={emailRef}
           returnKeyType="next"
@@ -91,8 +100,8 @@ const Login = ({navigation}) => {
           }}
           onSubmitEditing={handlNextPassWord}
           placeholder="Email"
-          onPressIn={()=>{setModalVisible(true);
-          }}
+          onPressIn={handleOpenModal
+          }
         />
       </View>
       <View style={styles.inputView}>
@@ -120,36 +129,40 @@ const Login = ({navigation}) => {
         </TouchableOpacity>
       </View>
     </View>
-    <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}>
-        <TouchableWithoutFeedback onPress={()=>setModalVisible(!modalVisible)}>
+    {modalOpen ? (
+      <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => {
+        handleOpenModal;
+      }}>
+      <TouchableWithoutFeedback onPress={
+                 handleHideModal
+      }>
 
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Đây có phải là bạn?</Text>
-              <FlatList
-                data={lstAccount}
-                alwaysBounceVertical = {true}
-                renderItem={({ item }) => (
-                  <TouchableOpacity style = {styles.modalitem} onPress={()=>{
-                    SetEmail(item.email);
-                    SetPassword(item.password);
-                    setModalVisible(false);
-                    }}>
-                    <Text style = {styles.modalTextitem}>{item.email}</Text>
-                  </TouchableOpacity>
-                )}
-              />
-          </View>
+      <View style={styles.centeredView}>
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>Đây có phải là bạn?</Text>
+            <FlatList
+              data={lstAccount}
+              alwaysBounceVertical = {true}
+              renderItem={({ item }) => (
+                <TouchableOpacity style = {styles.modalitem} onPress={()=>{
+                  SetEmail(item.email);
+                  SetPassword(item.password);
+                  setModalVisible(false);
+                  setModalOen(false)
+                  }}>
+                  <Text style = {styles.modalTextitem}>{item.email}</Text>
+                </TouchableOpacity>
+              )}
+            />
         </View>
-        </TouchableWithoutFeedback>
-      </Modal>
+      </View>
+      </TouchableWithoutFeedback>
+    </Modal>
+    ) : null}
 </KeyboardAvoidingView>
   );
 };

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { memo, useEffect, useState } from 'react';
-import { Dimensions, FlatList, Image, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import { Alert, Dimensions, FlatList, Image, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import CheckBox from '../Components/Item/Checkbox';
 import ButtonAdd from '../Components/Item/ButtonAdd';
 import TaskDB from '../Database/TaskDB';
@@ -10,8 +10,7 @@ import auth from '@react-native-firebase/auth';
 
 
 const Taskdb = new TaskDB();
-const WIDTH = Dimensions.get('window').width;
-const HEIGHT = Dimensions.get('window').height;
+
 const DATA = [
 
     {
@@ -59,7 +58,20 @@ const CheckBoxItem =  ({item, value, onPress, ShowUpdate, Delete})=>{
             </TouchableOpacity>
             <Text style= {styles.date}>{textFormat}</Text>
         </View>
-        <TouchableOpacity onPress={Delete} >
+        <TouchableOpacity onPress={()=>Alert.alert('Xác nhận',
+  'Bạn có chắc chắn muốn thực hiện hành động này?',
+  [
+    {
+      text: 'Hủy',
+      style: 'cancel',
+    },
+    {
+      text: 'Xác nhận',
+      onPress: 
+        Delete
+    
+    },
+  ],)} >
             <Image style = {styles.iconremove} source={require('../UI/remove.png')}/>
         </TouchableOpacity>
     </View>
@@ -218,17 +230,19 @@ const Task = ({navigation})=>{
                         />
                 )}
             </View>
-            <ButtonAdd style={{top: HEIGHT / 1.5 }}/>
+            <ButtonAdd style={styles.ButtonAdd}/>
         </View>
     );
 };
-
+const WIDTH = Dimensions.get('screen').width;
+const HEIGHT = Dimensions.get('screen').height;
 const styles = StyleSheet.create({
 
     container:{
         width: WIDTH,
-        height: HEIGHT / 1.22,
+        height: HEIGHT,
         backgroundColor:'white',
+        flex: 1,
     },
     titleView:{
         marginTop:32,
@@ -242,6 +256,7 @@ const styles = StyleSheet.create({
     listbox:{
         marginLeft: 32,
         marginTop: 66,
+        width: WIDTH/1.15,
     },
     boxitem:{
         width: 95,
@@ -308,6 +323,10 @@ const styles = StyleSheet.create({
         margin: 3,
         width: 15,
         height: 15,
+    },
+    ButtonAdd:{
+        top: HEIGHT / 1.5 ,
+        left: WIDTH / 1.25,
     },
 });
 

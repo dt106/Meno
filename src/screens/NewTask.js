@@ -116,6 +116,7 @@ const NewTask = ({route, navigation}) => {
   const handleTypeChange = Text => {
     setType(Text);
   };
+  const Now = new Date();
   useEffect(()=>{
     if (DeadlineRoute !== '')
     {
@@ -185,6 +186,7 @@ const NewTask = ({route, navigation}) => {
           <DateTimePicker
             isVisible={ShowPicker}
             mode="datetime"
+            minimumDate={new Date(Now.getFullYear(), Now.getMonth(),Now.getDate(),Now.getHours(),Now.getMinutes(),Now.getSeconds())}
             onConfirm={handleDateConfirm}
             onCancel={hideDatePicker}
             date={date}
@@ -206,7 +208,8 @@ const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
 const styles = StyleSheet.create({
   container: {
-    width: 'auto',
+    flex:1,
+    width: WIDTH,
     height: HEIGHT,
     backgroundColor: 'white',
   },
@@ -221,7 +224,7 @@ const styles = StyleSheet.create({
     marginTop: 32,
   },
   inputView: {
-    width: 316,
+    width: WIDTH/1.22,
     height: 49,
     borderColor: '#173147',
     borderWidth: 1,
@@ -242,6 +245,7 @@ const styles = StyleSheet.create({
   type: {
     marginLeft: 30,
     marginTop: 24,
+    width: WIDTH/1.22,
   },
   boxitem: {
     width: 95,
@@ -276,7 +280,7 @@ const styles = StyleSheet.create({
   buttonadd: {
     marginLeft: 30,
     marginTop: 30,
-    width: 317,
+    width: WIDTH/1.22,
     height: 46,
     justifyContent: 'center',
     alignItems: 'center',
